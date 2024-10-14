@@ -1,0 +1,16 @@
+name: allium_prepro
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.9
+  - bioconda::bioconductor-edger
+  - bioconda::bioconductor-sva
+  - bioconda::bioconductor-rsubread
+  - bioconda::bioconductor-ballgown
+  - pip
+  - pip:
+    - gene-thesaurus>=2.3.0
+    - rpy2
+    - pandas
