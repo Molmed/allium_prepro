@@ -1,5 +1,6 @@
 import os
 import requests
+import pandas as pd
 import rpy2.robjects as robjects
 
 
@@ -24,6 +25,7 @@ class ReferencePreprocessor():
     def run(self):
         self._download_ref()
         self._parse_gtf()
+        self._filter()
         self._cleanup()
 
     def _download_ref(self):
@@ -115,6 +117,29 @@ class ReferencePreprocessor():
         r_parse_gtf(self._gtf_file_path, self._annot_file_full)
         print(f"Created {self._annot_file_full}")
 
+    def _filter(self):
+        # Read in file
+        annot = pd.read_csv(self._annot_file_full)
+
+        # Get all rows where biotype is protein_coding
+        protein_coding_annot = annot.loc[annot['biotype'] == 'protein_coding']
+
+        # Only keep genes that are on chrs 1-22 and X
+        valid_chromosomes = [str(i) for i in range(1, 23)] + ['X']
+
+        # Keep only genes where chr is in valid_chromosomes
+        filtered_annot = protein_coding_annot[
+            protein_coding_annot['chr'].isin(valid_chromosomes)]
+
+        # Remove ribosomal genes
+        filtered_annot = filtered_annot[
+            ~filtered_annot['name'].str.startswith(('RPL', 'RPS'))]
+
+        # Write the filtered DataFrame to a CSV file
+        filtered_annot.to_csv(self._annot_file_filtered, index=False)
+
     def _cleanup(self):
-        pass
-        # TODO: Remove self._gtf_file_path
+        print("Cleaning up...")
+        # Remove the original GTF file
+        os.remove(self._gtf_file_path)
+        print("Done.")
