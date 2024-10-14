@@ -25,3 +25,6 @@ class SubtypeThesaurus():
 
     def translate(self, s):
         return self._dict.get(s, None)
+
+    def thesaurus(self):
+        return self._dict
