@@ -146,7 +146,7 @@ class GexPreprocessor():
         library(sva)
 
         # create a function `get_cpm`
-        normalize <- function(gex_path, ref_path, output_path, verbose=FALSE) {
+        normalize <- function(gex_path, ref_path, output_path) {
             x <- read.csv(gex_path, row.names = 1, header= TRUE, check.names = FALSE)
             annot <- read.csv(ref_path, row.names = 1, header= TRUE, check.names = FALSE)
 
