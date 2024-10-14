@@ -43,10 +43,11 @@ If your data was generated in batches, your count matrix should be batch correct
 
 ### Pre-processing and normalization for ALLIUM
 
-Modify the `example_gex_prepro.py` file in the project root, and run it with `python example_gex_prepro.py`.
+Modify `examples/example_gex_prepro.py`.
+Run it with: `python example_gex_prepro`.
 
 ### Next steps
 You are now ready to feed your PREFIX.counts.allium.csv file into [ALLIUM](https://github.com/Molmed/allium).
 
 ### Reference pre-processing
-Look at `example_ref_prepro.py` in the project root. **Note!** The ReferencePreprocessor class only needs to be used in the event that ALLIUM has been re-trained using a different gene annotation version.
+Look at `examples/example_ref_prepro.py` in the project root. **Note!** The ReferencePreprocessor class only needs to be used in the event that ALLIUM has been re-trained using a different gene annotation version.

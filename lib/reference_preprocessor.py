@@ -11,7 +11,7 @@ class ReferencePreprocessor():
 
         # Ensure the ref directory exists
         self._ref_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                     '../../data/reference')
+                                     '../data/reference')
         os.makedirs(self._ref_dir, exist_ok=True)
 
         # Set filenames

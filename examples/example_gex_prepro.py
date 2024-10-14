@@ -1,4 +1,4 @@
-from src.allium_prepro.gex_preprocessor import GexPreprocessor
+from lib.gex_preprocessor import GexPreprocessor
 
 p = GexPreprocessor(prefix='jude',
                     input_file='/home/mariya/Data/jude/jude.counts.raw.csv',
