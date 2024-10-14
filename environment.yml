@@ -14,3 +14,4 @@ dependencies:
     - gene-thesaurus>=2.3.0
     - rpy2
     - pandas
+    - pyyaml

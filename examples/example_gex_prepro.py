@@ -1,8 +1,23 @@
+from lib.gex_concatenator import GexConcatenator
 from lib.gex_preprocessor import GexPreprocessor
 
-p = GexPreprocessor(prefix='jude',
-                    input_file='/home/mariya/Data/jude/jude.counts.raw.csv',
-                    output_dir='/home/mariya/Data/jude',
+# GEX CONCATENATION #
+# If your GEX is a series of files, you can concatenate them into a single file
+def sample_name_extractor(x):
+    # Return everything before the first dot
+    return x.split('.')[0]
+
+gc = GexConcatenator('MYDATASET',
+                     '/path/to/gex_files',
+                     '/path/to/output',
+                     sample_name_extractor)
+gc.concatenate()
+
+# GENE NAME STANDARDIZATION, COUNT NORMALIZATION, ALLIUM FORMATTING #
+# sample_col_regex: regex to match the sample column names
+p = GexPreprocessor(prefix='MYDATASET',
+                    input_file='/path/to/MYDATASET.counts.raw.csv',
+                    output_dir='/path/to/output',
                     gene_format='symbol',
-                    sample_col_regex='^SJ.*ALL.*')
+                    sample_col_regex='^SAMPLENAME_PREFIX*')
 p.run()

@@ -1,0 +1,45 @@
+subtypes:
+  - id: B-other
+  - id: aneuploidy
+  - id: hyperdiploid
+    parent_id: aneuploidy
+    aliases: ["HeH", "Hyperdiploid"]
+  - id: low hyperdiploid
+    parent_id: aneuploidy
+    aliases: ["low HeH"]
+  - id: hypodiploid
+    parent_id: aneuploidy
+    aliases: ["Hypo"]
+  - id: iAMP21
+    parent_id: aneuploidy
+    aliases: ["iamp21"]
+  - id: ph-group
+  - id: BCR::ABL1
+    parent_id: ph-group
+    aliases: ["t(9;22)","Ph"]
+  - id: BCR::ABL1-like
+    parent_id: ph-group
+    aliases: ["ph-like", "Ph-like_non CRLF2", "Ph-like_CRLF2"]
+  - id: ETV6-group
+  - id: ETV6::RUNX1
+    parent_id: ETV6-group
+    aliases: ["t(12;21)", "ETV6-RUNX1"]
+  - id: ETV6::RUNX1-like
+    parent_id: ETV6-group
+    aliases: ["t(12;21)-like", "ETV6-RUNX1-like"]
+  - id: T-ALL
+  - id: DUX4-r
+    aliases: ["DUX4"]
+  - id: PAX5alt
+  - id: KMT2A-r
+    aliases: ["11q23/MLL", "KMT2A", "KMT2A-like"]
+  - id: ZNF384-r
+    aliases: ["ZNF384", "ZNF384-like"]
+  - id: TCF3::PBX1
+    aliases: ["t(1;19)", "TCF3-PBX1"]
+  - id: MEF2D-r
+    aliases: ["MEF2D"]
+  - id: PAX5 P80R
+    aliases: ["PAX5 p.Pro80Arg"]
+  - id: NUTM1-r
+    aliases: ["NUTM1"]
