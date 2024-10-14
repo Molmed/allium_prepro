@@ -43,18 +43,7 @@ If your data was generated in batches, your count matrix should be batch correct
 
 ### Pre-processing and normalization for ALLIUM
 
-Create your script in the main directory of this repository. Here is an example:
-
-```
-from src.allium_prepro.preprocessor import AlliumPreprocessor
-
-p = AlliumPreprocessor(prefix='jude',
-                       input_file='/home/mariya/Data/jude/jude.counts.raw.csv',
-                       output_dir='/home/mariya/Data/jude',
-                       gene_format='symbol',
-                       sample_col_regex='^SJ.*ALL.*')
-p.run()
-```
+Modify the `example_client.py` file in the project root, and run it with `python example_client.py`.
 
 ### Next steps
 You are now ready to feed your PREFIX.counts.allium.csv file into [ALLIUM](https://github.com/Molmed/allium).

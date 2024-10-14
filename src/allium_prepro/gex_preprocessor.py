@@ -5,7 +5,7 @@ from gene_thesaurus import GeneThesaurus
 import rpy2.robjects as robjects
 
 
-class AlliumPreprocessor():
+class GexPreprocessor():
     def __init__(self,
                  prefix,
                  input_file,
