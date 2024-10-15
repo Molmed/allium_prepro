@@ -49,19 +49,27 @@ class JudePhenotypeParser:
 
         # Strip trailing ?s
         s = s.rstrip('?')
-        if self._subtype_thesaurus.is_allium_subtype(s) or s == 'B-other':
+
+        # If subtype is recognized, return it
+        if self._subtype_thesaurus.is_allium_subtype(s):
             return s
+
+        # For secondary subtypes, return empty string if s is empty
+        if s == '':
+            return ''
+
+        # Get translation
         translation = self._subtype_thesaurus.translate(s)
-        if translation is not None:
-            return translation
-        else:
+
+        if translation.startswith('UNRECOGNIZED_SUBTYPE'):
             if level == JudePhenotypeParser.SUBTYPE_PRIMARY:
                 self.unknown_primary_subtypes[s] = \
                     self.unknown_primary_subtypes.get(s, 0) + 1
             elif level == JudePhenotypeParser.SUBTYPE_SECONDARY and s != '':
                 self.unknown_secondary_subtypes[s] = \
                     self.unknown_secondary_subtypes.get(s, 0) + 1
-            return ""
+
+        return translation
 
     def parse(self):
         print("Parsing St. Jude phenotype data...")

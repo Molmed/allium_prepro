@@ -27,7 +27,8 @@ class SubtypeThesaurus():
         s = s.strip()
         if return_self_as_default:
             return self._dict.get(s, s)
-        return self._dict.get(s, None)
+        translated = self._dict.get(s, f"UNRECOGNIZED_SUBTYPE: {s}")
+        return translated
 
     def translate_subtype_list(self, subtypes):
         translated = {}
