@@ -16,7 +16,7 @@ class JudePhenotypeParser:
         self._prefix = prefix
         self._pheno_tsv = pheno_tsv
         self._output_dir = output_dir
-        self._output_file_path = f'{output_dir}/{prefix}.pheno.csv'
+        self._output_file_path = f'{output_dir}/{prefix}.pheno.allium.csv'
         self._subtype_thesaurus = SubtypeThesaurus()
 
         # Track unknown subtypes
