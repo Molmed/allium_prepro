@@ -13,6 +13,7 @@ class JudePhenotypeParser:
                  prefix,
                  pheno_tsv,
                  output_dir):
+        self._prefix = prefix
         self._pheno_tsv = pheno_tsv
         self._output_dir = output_dir
         self._output_file_path = f'{output_dir}/{prefix}.pheno.csv'
@@ -113,7 +114,7 @@ class JudePhenotypeParser:
         self.df.to_csv(self._output_file_path, sep=';', index=False)
 
     def save_summary(self):
-        with open(f'{self._output_dir}/pheno_summary.txt', 'w') as f:
+        with open(f'{self._output_dir}/{self._prefix}.pheno_summary.txt', 'w') as f:
             f.write("Unknown primary subtypes: %s\n" %
                     self.unknown_primary_subtypes)
             f.write("Total cases with unknown primary subtypes: %d\n" %
