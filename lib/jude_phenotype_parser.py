@@ -126,5 +126,5 @@ class JudePhenotypeParser:
             f.write("Number of cases remaining: %d\n" % self.df.shape[0])
 
     def print_summary(self):
-        with open(f'{self._output_dir}/pheno_summary.txt', 'r') as f:
+        with open(f'{self._output_dir}/{self._prefix}.pheno_summary.txt', 'r') as f:
             print(f.read())
