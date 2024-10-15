@@ -63,6 +63,8 @@ class JudePhenotypeParser:
             return ""
 
     def parse(self):
+        print("Parsing St. Jude phenotype data...")
+
         df = pd.read_csv(self._pheno_tsv, delimiter='\t')
 
         # Drop AML cases

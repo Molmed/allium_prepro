@@ -18,6 +18,7 @@ class GexConcatenator():
         self._separator = separator
 
     def concatenate(self):
+        print("Concatenating gene expression data...")
         dfs = {}
 
         for filename in self._files:

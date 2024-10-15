@@ -171,7 +171,7 @@ class GexPreprocessor():
 
         # Format
         data = data.T
-        data.index.name = 'public_id'
+        data.index.name = 'id'
         data.columns.name = None
 
         # Dump to file
