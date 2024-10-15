@@ -1,6 +1,5 @@
 
 import pandas as pd
-import yaml
 import os
 from lib.subtype_thesaurus import SubtypeThesaurus
 from lib.gex_preprocessor import GexPreprocessor
@@ -26,6 +25,9 @@ subtypes_dict = st.thesaurus()
 # Replace Subtype column using dict
 data['Subtype'] = data['Subtype'].replace(subtypes_dict)
 
+# Rename Subtype to subtype
+data = data.rename(columns={'Subtype': 'subtype'})
+
 # Rename index to public_id
 data.index.name = 'id'
 
@@ -33,7 +35,7 @@ data.index.name = 'id'
 data.index = data.index.map(lambda x: f'Case_{x:03d}')
 
 # Dumop to output file
-data.to_csv(pheno_output_file)
+data.to_csv(pheno_output_file, sep=';')
 
 # PROCESS COUNTS ########
 # Load the data
