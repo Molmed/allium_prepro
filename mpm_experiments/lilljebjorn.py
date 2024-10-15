@@ -15,6 +15,7 @@ pheno_output_file = f'{output_dir}/lilljebjorn.pheno.allium.csv'
 counts_output_file = f'{output_dir}/lilljebjorn.counts.raw.csv'
 
 # PROCESS PHENO ########
+print("Processing phenotype data...")
 # Load the data
 data = pd.read_csv(pheno_input_file, index_col=0, sep=';')
 

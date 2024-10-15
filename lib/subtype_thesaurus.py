@@ -23,8 +23,24 @@ class SubtypeThesaurus():
     def is_allium_subtype(self, s):
         return s in self._allium_subtypes
 
-    def translate(self, s):
+    def translate(self, s, return_self_as_default=False):
+        s = s.strip()
+        if return_self_as_default:
+            return self._dict.get(s, s)
         return self._dict.get(s, None)
+
+    def translate_subtype_list(self, subtypes):
+        translated = {}
+        for entry in subtypes:
+            split_subtypes = entry.split(',')
+            if len(split_subtypes) > 1:
+                translated_split_subtypes = []
+                for x in split_subtypes:
+                    translated_split_subtypes.append(self.translate(x, True))
+                translated[entry] = ','.join(translated_split_subtypes)
+            else:
+                translated[entry] = self.translate(entry, True)
+        return translated
 
     def thesaurus(self):
         return self._dict

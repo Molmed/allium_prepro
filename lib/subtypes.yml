@@ -1,10 +1,10 @@
 subtypes:
   - id: B-other
-    aliases: ["B-other, with fusion", "B-other, without fusion"]
+    aliases: ["B-other, with fusion", "B-other, without fusion", "Others"]
   - id: aneuploidy
   - id: high hyperdiploid
     parent_id: aneuploidy
-    aliases: ["HeH", "Hyperdiploid", "High hyperdiploidy", "hyperdiploid"]
+    aliases: ["HeH", "Hyperdiploid", "High hyperdiploidy", "hyperdiploid", "HHD"]
   - id: low hyperdiploid
     parent_id: aneuploidy
     aliases: ["low HeH", "Low hyperdiploid"]
@@ -20,28 +20,28 @@ subtypes:
     aliases: ["t(9;22)","Ph","BCR-ABL1"]
   - id: BCR::ABL1-like
     parent_id: ph-group
-    aliases: ["ph-like", "Ph-like_non CRLF2", "Ph-like_CRLF2", "Ph-like"]
+    aliases: ["ph-like", "Ph-like_non CRLF2", "Ph-like_CRLF2", "Ph-like", "BCR-ABL1_or_like", "BCR-ABL1_or_like"]
   - id: ETV6-group
   - id: ETV6::RUNX1
     parent_id: ETV6-group
     aliases: ["t(12;21)", "ETV6-RUNX1"]
   - id: ETV6::RUNX1-like
     parent_id: ETV6-group
-    aliases: ["t(12;21)-like", "ETV6-RUNX1-like"]
+    aliases: ["t(12;21)-like", "ETV6-RUNX1-like", "ETV6-RUNX1_or_like"]
   - id: T-ALL
   - id: DUX4-r
-    aliases: ["DUX4", "DUX4-rearranged"]
+    aliases: ["DUX4", "DUX4-rearranged", "DUX4-R"]
   - id: PAX5alt
-    aliases: ["dic(9;20)"]
+    aliases: ["dic(9;20)","PAX5_alteration"]
   - id: KMT2A-r
-    aliases: ["11q23/MLL", "KMT2A", "KMT2A-like", "MLL"]
+    aliases: ["11q23/MLL", "KMT2A", "KMT2A-like", "MLL", "KMT2A-R"]
   - id: ZNF384-r
-    aliases: ["ZNF384", "ZNF384-like"]
+    aliases: ["ZNF384", "ZNF384-like", "ZNF384-R"]
   - id: TCF3::PBX1
     aliases: ["t(1;19)", "TCF3-PBX1"]
   - id: MEF2D-r
-    aliases: ["MEF2D"]
+    aliases: ["MEF2D", "MEF2D-R"]
   - id: PAX5 P80R
-    aliases: ["PAX5 p.Pro80Arg"]
+    aliases: ["PAX5 p.Pro80Arg", "PAX5_P80R"]
   - id: NUTM1-r
-    aliases: ["NUTM1"]
+    aliases: ["NUTM1", "NUTM1-R"]
