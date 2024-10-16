@@ -68,6 +68,7 @@ class JudePhenotypeParser:
             elif level == JudePhenotypeParser.SUBTYPE_SECONDARY and s != '':
                 self.unknown_secondary_subtypes[s] = \
                     self.unknown_secondary_subtypes.get(s, 0) + 1
+            return ""  # Return empty string for unrecognized subtypes
 
         return translation
 
@@ -99,12 +100,9 @@ class JudePhenotypeParser:
             secondary_subtype = self.alliumify_subtype(
                 secondary_subtype, level=self.SUBTYPE_SECONDARY)
 
-            final_subtype = primary_subtype
-            if secondary_subtype != '':
-                # Sort primary_subtype and secondary_subtype
-                # alphabetically and join them
-                final_subtype = self.SUBTYPE_LEVEL_DELIMITER.join(sorted([
-                    primary_subtype, secondary_subtype]))
+            # Remove empty strings, sort and join
+            final_subtype = self.SUBTYPE_LEVEL_DELIMITER.join(sorted([
+                x for x in [primary_subtype, secondary_subtype] if x != '']))
 
             # Write final_subtype to 'subtype' column
             df.at[index, 'subtype'] = final_subtype
