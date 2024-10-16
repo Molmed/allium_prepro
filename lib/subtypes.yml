@@ -30,7 +30,7 @@ subtypes:
     aliases: ["t(12;21)-like", "ETV6-RUNX1-like", "ETV6-RUNX1_or_like"]
   - id: T-ALL
   - id: DUX4-r
-    aliases: ["DUX4", "DUX4-rearranged", "DUX4-R"]
+    aliases: ["DUX4", "DUX4-rearranged", "DUX4-R", "DUX4-ERG"]
   - id: PAX5alt
     aliases: ["dic(9;20)","PAX5_alteration"]
   - id: KMT2A-r

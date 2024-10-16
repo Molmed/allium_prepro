@@ -15,3 +15,4 @@ dependencies:
     - rpy2
     - pandas
     - pyyaml
+    - openpyxl
