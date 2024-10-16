@@ -19,5 +19,6 @@ p = GexPreprocessor(prefix='MYDATASET',
                     input_file='/path/to/MYDATASET.counts.raw.csv',
                     output_dir='/path/to/output',
                     gene_format='symbol',
-                    sample_col_regex='^SAMPLENAME_PREFIX*')
+                    sample_col_regex='^SAMPLENAME_PREFIX*',
+                    batches_file='/path/to/batches.csv')
 p.run()

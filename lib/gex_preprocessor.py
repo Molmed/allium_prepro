@@ -12,6 +12,7 @@ class GexPreprocessor():
                  output_dir,
                  gene_format,
                  sample_col_regex,
+                 batches_file=None,
                  ref_data_dir=None,
                  ref_genome='Homo_sapiens.GRCh38.103',
                  tmp_dir='/tmp'):
@@ -22,6 +23,13 @@ class GexPreprocessor():
         self._normalized_file_path = \
             f'{output_dir}/{prefix}.tmp.counts.norm.csv'
         self._output_file_path = f'{output_dir}/{prefix}.counts.allium.csv'
+
+        # Optional batch correction
+        self._batch_corrected_file_path = None
+        self._batches_file_path = batches_file
+        if self._batches_file_path:
+            self._batch_corrected_file_path = \
+                f'{output_dir}/{prefix}.tmp.counts.batch_corrected.csv'
 
         # Throw exception if gene_format is not 'symbol' or 'ensembl'
         if gene_format not in ['symbol', 'ensembl']:
@@ -40,16 +48,43 @@ class GexPreprocessor():
         self._gt = GeneThesaurus(data_dir=tmp_dir)
 
     def run(self):
+        if self._batches_file_path:
+            self._batch_correction()
         self._preprocess_genes()
         self._normalize()
         self._allium_format()
         self._cleanup()
 
+    def _batch_correction(self):
+        print('Correcting batch effects...')
+
+        robjects.r('''
+        library(edgeR)
+        library(sva)
+
+        batch_correct <- function(gex_path, batches_path, output_path) {
+            x <- read.csv(gex_path, row.names = 1, header= TRUE, check.names = FALSE)
+            batches <- read.csv(batches_path, row.names = 1, header= TRUE, check.names = FALSE)
+            batch = batches$batch
+            correcteddata <- ComBat_seq(x, batch=batch)
+            write.csv(x, output_path)
+        }
+        ''')
+
+        r_batch_correct = robjects.r['batch_correct']
+        r_batch_correct(self._input_file,
+                        self._batches_file_path,
+                        self._batch_corrected_file_path)
+
     def _preprocess_genes(self):
         print('Preprocessing genes...')
 
+        input_file = self._input_file
+        if self._batch_corrected_file_path:
+            input_file = self._batch_corrected_file_path
+
         # Load the data
-        data = pd.read_csv(self._input_file, index_col=0)
+        data = pd.read_csv(input_file, index_col=0)
         ref = pd.read_csv(self._annot_file_path)
 
         if self._gene_format == 'ensembl':
@@ -180,4 +215,6 @@ class GexPreprocessor():
     def _cleanup(self):
         os.remove(self._filtered_file_path)
         os.remove(self._normalized_file_path)
+        if self._batch_corrected_file_path:
+            os.remove(self._batch_corrected_file_path)
         print('Done!')

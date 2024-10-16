@@ -39,7 +39,15 @@ Example:
 
 ### Batch correction
 
-If your data was generated in batches, your count matrix should be batch corrected before further processing with ALLIUM PrePro. Alternatively, you may choose to pre-process the batches as separate count files and submit them separately to ALLIUM.
+If your data was generated in batches, you can specify a batches file that is formatted as follows:
+| id       | batch  |
+| ---------| -------|
+| Sample_1 | Batch1 |
+| Sample_2 | Batch1 |
+| Sample_3 | Batch2 |
+| ...      | ...    |
+
+Alternatively, you may choose to pre-process the batches as separate count files and submit them separately to ALLIUM.
 
 ### Pre-processing and normalization for ALLIUM
 
