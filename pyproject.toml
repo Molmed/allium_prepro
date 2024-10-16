@@ -50,9 +50,9 @@ push = true
 
 [tool.pytest.ini_options]
 pythonpath = [
-  "lib"
+  "src"
 ]
 
 [tool.setuptools]
 packages = ["allium_prepro"]
-package-dir = {"" = "lib"}
+package-dir = {"" = "src"}

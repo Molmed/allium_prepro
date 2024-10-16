@@ -1,6 +1,6 @@
-from lib.gex_concatenator import GexConcatenator
-from lib.gex_preprocessor import GexPreprocessor
-from lib.jude_phenotype_parser import JudePhenotypeParser
+from src.allium_prepro.gex_preprocessor import GexPreprocessor
+from src.allium_prepro.gex_concatenator import GexConcatenator
+from src.allium_prepro.jude_phenotype_parser import JudePhenotypeParser
 
 # GEX CONCATENATION #
 data_path = '/home/mariya/Data/raw/jude'

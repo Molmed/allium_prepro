@@ -1,8 +1,8 @@
 
 import pandas as pd
 import os
-from lib.subtype_thesaurus import SubtypeThesaurus
-from lib.gex_preprocessor import GexPreprocessor
+from src.allium_prepro.subtype_thesaurus import SubtypeThesaurus
+from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
 path_to_raw_data = '/home/mariya/Data/raw/diedrich'
 pheno_input_file = f'{path_to_raw_data}/SupplementaryInfo.xlsx'

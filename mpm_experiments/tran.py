@@ -1,8 +1,8 @@
 import pandas as pd
 import os
-from lib.gex_concatenator import GexConcatenator
-from lib.subtype_thesaurus import SubtypeThesaurus
-from lib.gex_preprocessor import GexPreprocessor
+from src.allium_prepro.gex_concatenator import GexConcatenator
+from src.allium_prepro.subtype_thesaurus import SubtypeThesaurus
+from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
 data_path = '/home/mariya/Data/raw/tran'
 raw_data_dir = f'{data_path}/GSE181157_RAW/'

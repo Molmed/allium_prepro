@@ -41,7 +41,7 @@ class GexPreprocessor():
         # If not ref data dir, use the local one
         if not ref_data_dir:
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            ref_data_dir = os.path.join(script_dir, '../data/reference')
+            ref_data_dir = os.path.join(script_dir, '../../data/reference')
         self._annot_file_path = os.path.join(
             ref_data_dir, (f'{ref_genome}.allium.annotations.filtered.csv'))
 
