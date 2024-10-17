@@ -19,13 +19,6 @@ print("Processing phenotype data...")
 # Load the data
 data = pd.read_csv(pheno_input_file, index_col=0, sep=';')
 
-# Get subtype translation
-st = SubtypeThesaurus()
-subtypes_dict = st.thesaurus()
-
-# Replace Subtype column using dict
-data['Subtype'] = data['Subtype'].replace(subtypes_dict)
-
 # Rename Subtype to subtype
 data = data.rename(columns={'Subtype': 'subtype'})
 
@@ -34,6 +27,11 @@ data.index.name = 'id'
 
 # For each integer index value, convert it to a string of the format "Case_00n"
 data.index = data.index.map(lambda x: f'Case_{x:03d}')
+
+# Get subtype translation
+st = SubtypeThesaurus()
+subtypes_dict = st.thesaurus()
+data['subtype'] = st.translate_subtype_column(data['subtype'])
 
 # Dumop to output file
 data.to_csv(pheno_output_file, sep=';')

@@ -37,10 +37,9 @@ data = data.drop(columns=['batch'])
 
 # Get subtype translation
 st = SubtypeThesaurus()
-subtypes_dict = st.thesaurus()
 
 # Replace Subtype column using dict
-data['subtype'] = data['subtype'].replace(subtypes_dict)
+data['subtype'] = st.translate_subtype_column(data['subtype'])
 
 # Dump to output file
 data.to_csv(pheno_output_file, sep=';')

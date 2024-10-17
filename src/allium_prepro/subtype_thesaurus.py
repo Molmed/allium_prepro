@@ -19,6 +19,7 @@ class SubtypeThesaurus():
                 self._allium_subtypes.append(subtype['id'])
                 if 'parent_id' in subtype:
                     self._allium_groups.append(subtype['parent_id'])
+                self._dict[subtype['id']] = subtype['id']
                 if 'aliases' in subtype:
                     for alias in subtype['aliases']:
                         self._dict[alias] = subtype['id']
@@ -34,12 +35,9 @@ class SubtypeThesaurus():
         # Return subtypes that are not also in groups
         return list(set(self._allium_subtypes) - set(self._allium_groups))
 
-    def translate(self, s, return_self_as_default=False):
+    def translate(self, s):
         s = s.strip()
-        if return_self_as_default:
-            return self._dict.get(s, s)
-        translated = self._dict.get(s, f"UNRECOGNIZED_SUBTYPE: {s}")
-        return translated
+        return self._dict.get(s, f"UNRECOGNIZED_SUBTYPE: {s}")
 
     def translate_subtype_list(self, subtypes):
         translated = {}
@@ -48,11 +46,14 @@ class SubtypeThesaurus():
             if len(split_subtypes) > 1:
                 translated_split_subtypes = []
                 for x in split_subtypes:
-                    translated_split_subtypes.append(self.translate(x, True))
+                    translated_split_subtypes.append(self.translate(x))
                 translated[entry] = ','.join(translated_split_subtypes)
             else:
-                translated[entry] = self.translate(entry, True)
+                translated[entry] = self.translate(entry)
         return translated
+
+    def translate_subtype_column(self, column):
+        return column.replace(self.translate_subtype_list(column))
 
     def thesaurus(self):
         return self._dict

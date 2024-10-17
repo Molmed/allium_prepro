@@ -30,15 +30,12 @@ print("Processing phenotype data...")
 # Load the data
 data = pd.read_csv(pheno_input_file, index_col=0, sep=';')
 
-# Get subtype translation
-st = SubtypeThesaurus()
-updated_subtypes = st.translate_subtype_list(data['Final subtype'].values)
-
-# Replace subtypes using dict
-data['Final subtype'] = data['Final subtype'].replace(updated_subtypes)
-
 # Rename subtype column
 data = data.rename(columns={'Final subtype': 'subtype'})
+
+# Get subtype translation
+st = SubtypeThesaurus()
+data['subtype'] = st.translate_subtype_column(data['subtype'])
 
 # Rename index to public_id
 data.index.name = 'id'

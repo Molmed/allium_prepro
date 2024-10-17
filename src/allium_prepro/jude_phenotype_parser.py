@@ -68,7 +68,6 @@ class JudePhenotypeParser:
             elif level == JudePhenotypeParser.SUBTYPE_SECONDARY and s != '':
                 self.unknown_secondary_subtypes[s] = \
                     self.unknown_secondary_subtypes.get(s, 0) + 1
-            return ""  # Return empty string for unrecognized subtypes
 
         return translation
 
