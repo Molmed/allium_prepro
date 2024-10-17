@@ -6,6 +6,7 @@ class SubtypeThesaurus():
     def __init__(self):
         self._dict = {}
         self._allium_subtypes = []
+        self._allium_groups = []
         # Get current path
         current_path = os.path.dirname(os.path.realpath(__file__))
         CONSTANTS_YML = f'{current_path}/subtypes.yml'
@@ -16,12 +17,22 @@ class SubtypeThesaurus():
             # Loop through subtypes
             for subtype in subtypes:
                 self._allium_subtypes.append(subtype['id'])
+                if 'parent_id' in subtype:
+                    self._allium_groups.append(subtype['parent_id'])
                 if 'aliases' in subtype:
                     for alias in subtype['aliases']:
                         self._dict[alias] = subtype['id']
+            # Dedupe groups
+            self._allium_groups = list(set(self._allium_groups))
 
     def is_allium_subtype(self, s):
         return s in self._allium_subtypes
+
+    def allium_subtypes(self, include_groups=False):
+        if include_groups:
+            return self._allium_subtypes
+        # Return subtypes that are not also in groups
+        return list(set(self._allium_subtypes) - set(self._allium_groups))
 
     def translate(self, s, return_self_as_default=False):
         s = s.strip()

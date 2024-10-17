@@ -8,9 +8,6 @@ subtypes:
   - id: low hyperdiploid
     parent_id: aneuploidy
     aliases: ["low HeH", "Low hyperdiploid"]
-  - id: hypodiploid
-    parent_id: aneuploidy
-    aliases: ["Hypo", "Hypodiploid"]
   - id: iAMP21
     parent_id: aneuploidy
     aliases: ["iamp21"]
