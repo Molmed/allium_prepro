@@ -1,4 +1,5 @@
 subtypes:
+  - id: Control
   - id: B-other
     aliases: ["B-other, with fusion", "B-other, without fusion", "Others"]
   - id: aneuploidy
