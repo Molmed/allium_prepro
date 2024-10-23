@@ -34,5 +34,5 @@ p = GexPreprocessor(prefix='jude',
                     input_file=f'{processed_data_path}/jude.counts.raw.csv',
                     output_dir=processed_data_path,
                     gene_format='symbol',
-                    sample_col_regex='^SJ.*ALL.*')
+                    sample_col_regex='^SJ.*')
 p.run()
