@@ -38,8 +38,8 @@ data = data.rename(columns={subtype_col_name: 'subtype',
 # Rename index
 data.index.name = 'id'
 
-# Extract only hold out data
-data = data[data['partition'] == 'held-out']
+# Extract only hold out data and b-others
+data = data[(data['partition'] == 'held-out') | (data['partition'] == 'B-other')]
 
 # Extract batches info into a separate file
 batches = data[['batch']]
