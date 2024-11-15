@@ -16,3 +16,5 @@ dependencies:
     - pandas
     - pyyaml
     - openpyxl
+    - umap-learn
+    - matplotlib
