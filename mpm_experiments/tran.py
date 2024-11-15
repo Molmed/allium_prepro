@@ -51,6 +51,3 @@ p = GexPreprocessor(prefix='tran',
                     sample_col_regex='^16-.*')
 
 p.run()
-
-# Clean up intermediate file
-os.remove(counts_output_file)

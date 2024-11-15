@@ -57,6 +57,3 @@ p = GexPreprocessor(prefix='lilljebjorn',
                     gene_format='symbol',
                     sample_col_regex='^Case.*')
 p.run()
-
-# Clean up intermediate file
-os.remove(counts_output_file)

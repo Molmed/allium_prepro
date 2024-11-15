@@ -57,6 +57,3 @@ p = GexPreprocessor(prefix='heinaniemi',
                     sample_col_regex='^(ALL|GE).*',
                     batches_file=batches_output_file)
 p.run()
-
-# Clean up intermediate file
-os.remove(counts_output_file)

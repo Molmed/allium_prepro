@@ -76,6 +76,3 @@ p = GexPreprocessor(prefix='krali',
                     sample_col_regex='^ALL.*',
                     batches_file=batches_output_file)
 p.run()
-
-# Clean up intermediate file
-os.remove(counts_output_file)

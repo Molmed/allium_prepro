@@ -67,7 +67,7 @@ class GexPreprocessor():
             batches <- read.csv(batches_path, row.names = 1, header= TRUE, check.names = FALSE)
             batch = batches$batch
             correcteddata <- ComBat_seq(x, batch=batch)
-            write.csv(x, output_path)
+            write.csv(correcteddata, output_path)
         }
         ''')
 

@@ -8,7 +8,7 @@ DATASET_PREFIX = 'heinaniemi'
 # Data
 data_dir = '/home/mariya/Data/allium'
 pheno_file = f'{data_dir}/{DATASET_PREFIX}.pheno.allium.csv'
-counts_file = f'{data_dir}/{DATASET_PREFIX}.counts.allium.csv'
+counts_file = f'{data_dir}/{DATASET_PREFIX}.raw.allium.csv'
 batches_file = f'{data_dir}/{DATASET_PREFIX}.batches.allium.csv'
 
 bu = BatchUmap(prefix=DATASET_PREFIX,
