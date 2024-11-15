@@ -20,7 +20,8 @@ class BatchUmap():
                  counts_file,
                  batches_file,
                  phenotype_file,
-                 output_dir):
+                 output_dir,
+                 do_transform=False):
         self._prefix = prefix
         self._counts_file = counts_file
         self._batches_file = batches_file
@@ -28,6 +29,7 @@ class BatchUmap():
         self._output_dir = output_dir
         self._FONT_SIZE = 15
         self._FIG_SIZE = (8, 8)
+        self._do_transform = do_transform
 
     def run(self):
         pheno_df = pd.read_csv(self._phenotype_file, index_col=0, sep=';')
@@ -43,6 +45,10 @@ class BatchUmap():
             data=joined_df[['subtype', 'batch']],
             columns=['subtype', 'batch']).reset_index(drop=True)
         counts_df = pd.read_csv(self._counts_file, index_col=0)
+
+        if self._do_transform:
+            counts_df = counts_df.T
+
         mapper = umap.UMAP(n_components=n_components)
         data = mapper.fit_transform(counts_df)
         cols = ['UMAP_' + str(c+1) for c in range(n_components)]
