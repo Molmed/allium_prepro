@@ -1,6 +1,9 @@
-import umap
 import pandas as pd
+import numpy as np
+import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+import umap.umap_ as umap
 from .subtype_thesaurus import SubtypeThesaurus
 
 
@@ -19,87 +22,60 @@ class BatchUmap():
                  prefix,
                  counts_file,
                  batches_file,
-                 phenotype_file,
                  output_dir,
                  do_transform=False):
         self._prefix = prefix
         self._counts_file = counts_file
         self._batches_file = batches_file
-        self._phenotype_file = phenotype_file
         self._output_dir = output_dir
         self._FONT_SIZE = 15
         self._FIG_SIZE = (8, 8)
         self._do_transform = do_transform
 
     def run(self):
-        pheno_df = pd.read_csv(self._phenotype_file, index_col=0, sep=';')
-        batches_df = pd.read_csv(self._batches_file, index_col=0)
-
-        # Get unique values of the batch column
-        unique_batches = batches_df['batch'].unique()
-        n_components = unique_batches.size
-
-        # join the two dataframes
-        joined_df = pheno_df.join(batches_df, how='inner')
-        features = pd.DataFrame(
-            data=joined_df[['subtype', 'batch']],
-            columns=['subtype', 'batch']).reset_index(drop=True)
-        counts_df = pd.read_csv(self._counts_file, index_col=0)
+        # Load your dataset
+        data = pd.read_csv(self._counts_file, index_col=0)
 
         if self._do_transform:
-            counts_df = counts_df.T
+            data = data.T
 
-        mapper = umap.UMAP(n_components=n_components)
-        data = mapper.fit_transform(counts_df)
-        cols = ['UMAP_' + str(c+1) for c in range(n_components)]
-        datadf = pd.DataFrame(data, columns=cols)
-        finaldf = pd.concat([datadf, features], axis=1)
-        finaldf.index = counts_df.index
+        batch_labels = pd.read_csv(self._batches_file, index_col=0)['batch']
+        n_components = batch_labels.nunique()
+        colormap = BatchUmap._colormap(batch_labels.unique())
 
-        # Get colormap for subtypes
-        colormap = BatchUmap._colormap(SubtypeThesaurus().allium_subtypes())
+        # Sort the data and batch labels by sample name
+        data = data.sort_index()
+        batch_labels = batch_labels.sort_index()
 
-        # step factor =2 so we compare 1-2, 3-4 etc.
-        for comp in range(1, n_components + 1, 2):
-            plt.figure(figsize=self._FIG_SIZE)
-            plt.xlabel('UMAP_{}'.format(comp), fontsize=self._FONT_SIZE)
-            plt.ylabel('UMAP_{}'.format(comp + 1 ), fontsize=self._FONT_SIZE)
-            plt.title('UMAP representation labeled by cytogenetic subtype',
-                      fontsize=self._FONT_SIZE)
-            clusterings = list(colormap.keys())
-            gencolor = list(colormap.values())
-            for clustering, coloring in zip(clusterings, gencolor):
-                indicesToKeep = finaldf['subtype'] == clustering
-                plt.scatter(finaldf.loc[indicesToKeep, 'UMAP_{}'.format(comp)],
-                            finaldf.loc[indicesToKeep, 'UMAP_{}'.format(
-                                comp + 1)],
-                            c=coloring,
-                            s=50)
+        # Normalize and scale the data
+        scaler = StandardScaler()
+        scaled_data = scaler.fit_transform(data)
 
-            plt.legend(clusterings)
-            plt.grid()
-            plt.savefig(f'{self._output_dir}/{self._prefix}_umap_subtypes.png')
+        # Apply UMAP for dimensionality reduction
+        reducer = umap.UMAP(n_neighbors=15,
+                            min_dist=0.1,
+                            n_components=n_components,
+                            random_state=42)
+        umap_embedding = reducer.fit_transform(scaled_data)
 
-        # Get colormap
-        colormap = BatchUmap._colormap(unique_batches)
+        # Create a DataFrame for visualization
+        umap_df = pd.DataFrame(umap_embedding, columns=['UMAP1', 'UMAP2'])
+        umap_df['Batch'] = batch_labels.values
 
-        # step factor =2 so we compare 1-2, 3-4 etc.
-        for comp in range(1, n_components + 1, 2):
-            plt.figure(figsize=self._FIG_SIZE)
-            plt.xlabel('UMAP_{}'.format(comp), fontsize=self._FONT_SIZE)
-            plt.ylabel('UMAP_{}'.format(comp + 1), fontsize=self._FONT_SIZE)
-            plt.tick_params('x', labelsize=30)
-            plt.tick_params('y', labelsize=30)
+        # Plot UMAP
+        plt.figure(figsize=(10, 8))
+        sns.scatterplot(
+            x='UMAP1',
+            y='UMAP2',
+            hue='Batch',
+            palette=colormap,
+            data=umap_df,
+            s=50
+        )
+        plt.title('UMAP of Gene Expression Data Showing Batch Effects')
+        plt.legend(title='Batch', bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.xlabel('UMAP1')
+        plt.ylabel('UMAP2')
+        plt.tight_layout()
 
-            for clustering, coloring in zip(colormap.keys(),
-                                            colormap.values()):
-                indicesToKeep = finaldf['batch'] == clustering
-                plt.scatter(finaldf.loc[indicesToKeep, 'UMAP_{}'.format(comp)],
-                            finaldf.loc[indicesToKeep, 'UMAP_{}'.format(
-                                comp + 1)],
-                            c=coloring,
-                            s=100)
-
-            plt.legend(colormap.keys(), fontsize=self._FONT_SIZE)
-            plt.axis('off')
-            plt.savefig(f'{self._output_dir}/{self._prefix}_umap_batches.png')
+        plt.savefig(f'{self._output_dir}/{self._prefix}_umap_batches.png')
