@@ -16,7 +16,7 @@ class JudePhenotypeParser:
         self._prefix = prefix
         self._pheno_tsv = pheno_tsv
         self._output_dir = output_dir
-        self._output_file_path = f'{output_dir}/{prefix}.pheno.allium.csv'
+        self._output_file_path_pheno = f'{output_dir}/{prefix}.pheno.allium.csv'
         self._subtype_thesaurus = SubtypeThesaurus()
 
         # Track unknown subtypes
@@ -79,8 +79,13 @@ class JudePhenotypeParser:
         # Drop AML cases
         df = df[df['attr_diagnosis'] != 'AML']
 
+        batch_cols = ['attr_library_selection_protocol',
+                      'attr_sequencing_platform',
+                      'attr_lab_strandedness']
+
         # Drop unnecessary columns
-        df = df[['sample_name', 'attr_diagnosis']]
+        df = df[['sample_name',
+                 'attr_diagnosis'] + batch_cols]
 
         # Rename sample_name to id
         df = df.rename(columns={'sample_name': 'id'})
@@ -106,8 +111,11 @@ class JudePhenotypeParser:
             # Write final_subtype to 'subtype' column
             df.at[index, 'subtype'] = final_subtype
 
-        # Drop 'attr_diagnosis' column
-        df = df.drop(columns=['attr_diagnosis'])
+        # Keep batches df
+        self.batches_df = df[['id'] + batch_cols]
+
+        # Drop unnecessary columns
+        df = df.drop(columns=['attr_diagnosis'] + batch_cols)
 
         # Store the df
         self.df = df
@@ -116,7 +124,16 @@ class JudePhenotypeParser:
         self.save_summary()
         self.print_summary()
 
-        self.df.to_csv(self._output_file_path, sep=';', index=False)
+        self.df.to_csv(self._output_file_path_pheno, sep=';', index=False)
+
+        for col in batch_cols:
+            filename = f'{self._output_dir}/{self._prefix}.batches.{col}.allium.csv'
+            batch_df = self.batches_df[['id', col]]
+            # Rename col to batch
+            batch_df = batch_df.rename(columns={col: 'batch'})
+            batch_df.to_csv(filename,
+                            sep=',',
+                            index=False)
 
     def save_summary(self):
         with open(f'{self._output_dir}/{self._prefix}.pheno_summary.txt', 'w') as f:
