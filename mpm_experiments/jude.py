@@ -7,6 +7,7 @@ data_path = '/home/mariya/Data/raw/jude'
 raw_data_dir = f'{data_path}/feature_counts'
 raw_phenotype_path = f'{data_path}/SAMPLE_INFO.txt'
 processed_data_path = '/home/mariya/Data/allium'
+batches_file = f'{processed_data_path}/jude.batches.attr_library_selection_protocol.allium.csv'
 
 
 def sample_name_extractor(x):
@@ -34,5 +35,6 @@ p = GexPreprocessor(prefix='jude',
                     input_file=f'{processed_data_path}/jude.counts.raw.csv',
                     output_dir=processed_data_path,
                     gene_format='symbol',
-                    sample_col_regex='^SJ.*')
+                    sample_col_regex='^SJ.*',
+                    batches_file=batches_file)
 p.run()
