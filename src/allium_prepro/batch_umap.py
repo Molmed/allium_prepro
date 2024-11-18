@@ -21,9 +21,9 @@ class BatchUmap():
     def __init__(self,
                  prefix,
                  counts_file,
-                 batches_file,
                  output_dir,
-                 do_transform=False):
+                 do_transform=False,
+                 batches_file=None):
         self._prefix = prefix
         self._counts_file = counts_file
         self._batches_file = batches_file
@@ -39,8 +39,14 @@ class BatchUmap():
         if self._do_transform:
             data = data.T
 
-        batch_labels = pd.read_csv(self._batches_file, index_col=0)['batch']
-        n_components = batch_labels.nunique()
+        if not self._batches_file:
+            # Create a dummy batch column
+            batch_labels = pd.DataFrame(index=data.index)
+            batch_labels['batch'] = np.random.choice(['All data'], data.shape[0])
+            batch_labels = batch_labels['batch']
+        else:
+            batch_labels = pd.read_csv(self._batches_file, index_col=0)['batch']
+
         colormap = BatchUmap._colormap(batch_labels.unique())
 
         # Sort the data and batch labels by sample name
@@ -54,7 +60,7 @@ class BatchUmap():
         # Apply UMAP for dimensionality reduction
         reducer = umap.UMAP(n_neighbors=15,
                             min_dist=0.1,
-                            n_components=n_components,
+                            n_components=2,
                             random_state=42)
         umap_embedding = reducer.fit_transform(scaled_data)
 
