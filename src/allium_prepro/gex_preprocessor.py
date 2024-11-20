@@ -95,7 +95,13 @@ class GexPreprocessor():
             translated_genes = self._gt.translate_genes(data.index.values,
                                                         source='ensembl_id',
                                                         target='symbol')
-            data['gene_name_std'] = data.index.map(translated_genes).fillna("")
+
+            def _standardize_ensembl_name(ensembl_name):
+                if ensembl_name in translated_genes:
+                    return translated_genes[ensembl_name]
+                return ensembl_name
+
+            data['gene_name_std'] = data.index.map(_standardize_ensembl_name)
         else:
             # Code to use if index is in symbol format
             # Get all gene name values to update to the latest standard
@@ -115,48 +121,54 @@ class GexPreprocessor():
         ref['gene_name_std'] = ref['name'].map(
             updated_genes).fillna(ref['name'])
 
-        # Drop all rows in data where gene_name_std
-        # does not appear in ref['gene_name_std']
-        data = data[data['gene_name_std'].isin(ref['gene_name_std'])]
-
-        # Join the two dataframes on the gene_name_std column
-        data = data.join(ref.set_index('gene_name_std'), on='gene_name_std')
-
-        # Get duplicates
-        duplicates = data[data.duplicated(subset='gene_name_std', keep=False)]
-
-        # Get all unique indices from duplicates
-        duplicate_gene_names = duplicates['gene_name_std'].unique()
-
-        # For each row in duplicates,
-        # sum the values of the rows with the same name
-        # and update the row with the sum. Then drop the duplicates.
-        case_columns = [col for col in duplicates.columns if
+        filtered_rows = {}
+        case_columns = [col for col in data.columns if
                         re.match(self._sample_col_regex, col)]
 
-        for duplicate_gene in duplicate_gene_names:
-            # Get all rows with the same id
-            dupes = data[data['gene_name_std'] == duplicate_gene]
+        def _find_ref_key(row):
+            if row.name in ref['id'].values:
+                return ref[ref['id'] == row.name]['id'].values[0]
+            if row['gene_name_std'] in ref['gene_name_std'].values:
+                ref_rows = ref[ref['gene_name_std'] == row['gene_name_std']]
 
-            # Sum the rows
-            new_counts = dupes[case_columns].sum()
+                if len(ref_rows) == 1:
+                    return ref_rows['id'].values[0]
 
-            # Update the corresponding data rows with the new counts
-            data.loc[
-                data['gene_name_std'] == duplicate_gene, case_columns
-                ] = new_counts.values
+                # See if one of the rows also matches a ref id
+                for i, r in ref_rows.iterrows():
+                    if r['id'] in ref['id'].values:
+                        return r['id']
 
-        # Keep only the first record of all duplicates
-        data = data.drop_duplicates(subset='gene_name_std')
+                # Return the first row
+                return ref_rows['id'].values[0]
+
+        for i, row in data.iterrows():
+            # Strip whitespace
+            key = _find_ref_key(row)
+
+            # Print ref row length
+            if key is not None:
+                try:
+                    key = key.strip()
+                except Exception:
+                    print(f'Error: {key}')
+                    exit()
+
+                # Just keep case cols in row
+                row = row[case_columns]
+
+                # Is there already a row in filtered_rows?
+                if key in filtered_rows:
+                    filtered_rows[key] += row
+                else:
+                    filtered_rows[key] = row
+                # Keep the previous index name for the row
+                filtered_rows[key].name = key
+
+        data = pd.DataFrame(filtered_rows.values())
 
         # Print records in ref.id that are not in data.id
-        missing = ref[~ref['id'].isin(data['id'])]
-
-        # Change index to id column
-        data = data.set_index('id')
-
-        # Drop all columns except for the case columns
-        data = data[case_columns]
+        missing = ref[~ref['id'].isin(data.index)]
 
         # Create records for all missing genes in data, filled with 0s
         # The missing$id is the index value, and all the case columns are 0
@@ -165,8 +177,7 @@ class GexPreprocessor():
                                     data=0)
 
         # Dump missing data to file
-        if not missing_data.empty:
-            missing_data.to_csv(self._missing_genes_path)
+        missing_data.to_csv(self._missing_genes_path)
 
         # Remove index name
         missing_data.index.name = None
