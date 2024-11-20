@@ -23,6 +23,7 @@ class GexPreprocessor():
         self._normalized_file_path = \
             f'{output_dir}/{prefix}.tmp.counts.norm.csv'
         self._output_file_path = f'{output_dir}/{prefix}.counts.allium.csv'
+        self._missing_genes_path = f'{output_dir}/{prefix}.missing_genes.csv'
 
         # Optional batch correction
         self._batch_corrected_file_path = None
@@ -162,6 +163,10 @@ class GexPreprocessor():
         missing_data = pd.DataFrame(index=missing['id'],
                                     columns=case_columns,
                                     data=0)
+
+        # Dump missing data to file
+        if not missing_data.empty:
+            missing_data.to_csv(self._missing_genes_path)
 
         # Remove index name
         missing_data.index.name = None
