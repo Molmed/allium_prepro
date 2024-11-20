@@ -3,6 +3,8 @@ from src.allium_prepro.gex_concatenator import GexConcatenator
 from src.allium_prepro.jude_phenotype_parser import JudePhenotypeParser
 
 # GEX CONCATENATION #
+dataset_name = 'jude'
+print(f"Processing {dataset_name}...")
 data_path = '/home/mariya/Data/raw/jude'
 raw_data_dir = f'{data_path}/feature_counts'
 raw_phenotype_path = f'{data_path}/SAMPLE_INFO.txt'

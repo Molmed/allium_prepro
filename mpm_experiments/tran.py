@@ -4,6 +4,8 @@ from src.allium_prepro.gex_concatenator import GexConcatenator
 from src.allium_prepro.subtype_thesaurus import SubtypeThesaurus
 from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
+dataset_name = 'tran'
+print(f"Processing {dataset_name}...")
 data_path = '/home/mariya/Data/raw/tran'
 raw_data_dir = f'{data_path}/GSE181157_RAW/'
 pheno_input_file = f'{data_path}/tran.pheno.csv'

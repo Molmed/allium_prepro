@@ -3,6 +3,8 @@ import os
 from src.allium_prepro.subtype_thesaurus import SubtypeThesaurus
 from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
+dataset_name = 'heinaniemi'
+print(f"Processing {dataset_name}...")
 path_to_raw_data = '/home/mariya/Data/raw/heinaniemi'
 meta_input_file = f'{path_to_raw_data}/heinaniemi_meta.csv'
 counts_input_file = \

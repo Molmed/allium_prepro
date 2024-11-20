@@ -3,6 +3,8 @@ import os
 from src.allium_prepro.subtype_thesaurus import SubtypeThesaurus
 from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
+dataset_name = 'krali'
+print(f"Processing {dataset_name}...")
 path_to_raw_data = '/home/mariya/Data/raw/krali'
 meta_input_file = f'{path_to_raw_data}/41698_2023_479_MOESM2_ESM.xlsx'
 counts_input_file = \
