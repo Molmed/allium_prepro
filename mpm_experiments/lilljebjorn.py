@@ -4,10 +4,13 @@ import os
 from src.allium_prepro.subtype_thesaurus import SubtypeThesaurus
 from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
+dataset_name = 'lilljebjorn'
+print(f"Processing {dataset_name}...")
+
 # GEX data from Lilljebjorn et al. 2016
 path_to_raw_data = '/home/mariya/Data/raw/lilljebjorn'
 pheno_input_file = f'{path_to_raw_data}/lilljebjorn.pheno.csv'
-counts_input_file = f'{path_to_raw_data}/BCP-ALL_expected_counts.csv'
+counts_input_file = f'{path_to_raw_data}/BCP-ALL_Lund_195cases_featurecount.tsv'
 
 # Outputs
 output_dir = '/home/mariya/Data/allium'
@@ -33,19 +36,18 @@ st = SubtypeThesaurus()
 subtypes_dict = st.thesaurus()
 data['subtype'] = st.translate_subtype_column(data['subtype'])
 
-# Dumop to output file
+# Dump to output file
 data.to_csv(pheno_output_file, sep=';')
 
 # PROCESS COUNTS ########
 # Load the data
-data = pd.read_csv(counts_input_file, index_col=0)
+data = pd.read_csv(counts_input_file, index_col=0, sep='\t')
 
-# Update index to use the gene name, after the first underscore
-data.index = data.index.str.split('_', n=1).str[1]
+# Rename all columns starting with "case_" to "Case_00n"
+data.columns = data.columns.map(lambda x: f'Case_{int(x.split("_")[1]):03d}' if x.startswith('case_') else x)
 
-# Drop all rows whose index starts with "ENSGR", these are Y chr genes
-# https://www.gencodegenes.org/pages/faq.html
-data = data[~data.index.str.startswith("ENSGR")]
+# Sort columns
+data.sort_index(axis=1, inplace=True)
 
 # Write to file
 data.to_csv(counts_output_file)
