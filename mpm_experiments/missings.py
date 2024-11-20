@@ -1,8 +1,7 @@
 
 import pandas as pd
-import os
 
-datasets = ['diedrich', 'heinaniemi', 'jude', 'lilljebjorn', 'tran']
+datasets = ['diedrich', 'heinaniemi', 'jude', 'krali', 'lilljebjorn', 'tran']
 
 for DATASET_PREFIX in datasets:
     print("Processing ", DATASET_PREFIX)
