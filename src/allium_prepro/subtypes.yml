@@ -5,7 +5,7 @@ subtypes:
   - id: aneuploidy
   - id: high hyperdiploid
     parent_id: aneuploidy
-    aliases: ["HeH", "Hyperdiploid", "High hyperdiploidy", "hyperdiploid", "HHD"]
+    aliases: ["HeH", "Hyperdiploid", "High hyperdiploidy", "hyperdiploid", "HHD", "High hyperdiploid"]
   - id: low hyperdiploid
     parent_id: aneuploidy
     aliases: ["low HeH", "Low hyperdiploid"]
@@ -15,7 +15,7 @@ subtypes:
   - id: ph-group
   - id: BCR::ABL1
     parent_id: ph-group
-    aliases: ["t(9;22)","Ph","BCR-ABL1"]
+    aliases: ["t(9;22)","Ph","BCR-ABL1","Ph-pos"]
   - id: BCR::ABL1-like
     parent_id: ph-group
     aliases: ["ph-like", "Ph-like_non CRLF2", "Ph-like_CRLF2", "Ph-like", "BCR-ABL1_or_like", "BCR-ABL1_or_like"]
@@ -32,9 +32,9 @@ subtypes:
   - id: PAX5alt
     aliases: ["dic(9;20)","PAX5_alteration"]
   - id: KMT2A-r
-    aliases: ["11q23/MLL", "KMT2A", "KMT2A-like", "MLL", "KMT2A-R"]
+    aliases: ["11q23/MLL", "KMT2A", "KMT2A-like", "MLL", "KMT2A-R", "KMT2A Group"]
   - id: ZNF384-r
-    aliases: ["ZNF384", "ZNF384-like", "ZNF384-R"]
+    aliases: ["ZNF384", "ZNF384-like", "ZNF384-R", "ZNF384 Group"]
   - id: TCF3::PBX1
     aliases: ["t(1;19)", "TCF3-PBX1"]
   - id: MEF2D-r
