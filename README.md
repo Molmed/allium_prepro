@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/872372334.svg)](https://doi.org/10.5281/zenodo.14329215)
 # ALLIUM PrePro v1.1.0 :garlic:
 
 ## About
