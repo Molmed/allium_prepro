@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "allium_prepro"
-version = "v1.0.0"
+version = "v1.1.0"
 description = "ALLIUM PrePro is a library for preprocessing gene expression (GEX) and DNA methylation (DNAm) data to prepare it for prediction using the ALLIUM, a multimodal classifier of molecular subtypes in pediatric acute lymphoblastic leukemia."
 readme = "README.md"
 authors = [
@@ -28,7 +28,7 @@ Homepage = "https://github.com/Molmed/allium_prepro"
 
 
 [tool.bumpver]
-current_version = "v1.0.0"
+current_version = "v1.1.0"
 version_pattern = "vMAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 tag_message = "{new_version}"

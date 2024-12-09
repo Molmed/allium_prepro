@@ -1,4 +1,4 @@
-# ALLIUM PrePro v1.0.0 :garlic:
+# ALLIUM PrePro v1.1.0 :garlic:
 
 ## About
 
