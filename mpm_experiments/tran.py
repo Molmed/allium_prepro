@@ -6,11 +6,11 @@ from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
 dataset_name = 'tran'
 print(f"Processing {dataset_name}...")
-data_path = '/home/mariya/Data/raw/tran'
+data_path = '/home/mariya/Data/for_allium/raw/tran'
 raw_data_dir = f'{data_path}/GSE181157_RAW/'
 pheno_input_file = f'{data_path}/tran.pheno.csv'
 
-processed_data_path = '/home/mariya/Data/allium'
+processed_data_path = '/home/mariya/Data/for_allium/allium'
 pheno_output_file = f'{processed_data_path}/tran.pheno.allium.csv'
 counts_output_file = f'{processed_data_path}/tran.counts.raw.csv'
 

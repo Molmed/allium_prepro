@@ -6,13 +6,13 @@ from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
 dataset_name = 'diedrich'
 print(f"Processing {dataset_name}...")
-path_to_raw_data = '/home/mariya/Data/raw/diedrich'
+path_to_raw_data = '/home/mariya/Data/for_allium/raw/diedrich'
 pheno_input_file = f'{path_to_raw_data}/SupplementaryInfo.xlsx'
 counts_input_file = \
     f'{path_to_raw_data}/GSE161501_ALL_cell_RNAseq_read_counts.txt'
 
 # Outputs
-output_dir = '/home/mariya/Data/allium'
+output_dir = '/home/mariya/Data/for_allium/allium'
 pheno_output_file = f'{output_dir}/diedrich.pheno.allium.csv'
 counts_output_file = f'{output_dir}/diedrich.counts.raw.csv'
 

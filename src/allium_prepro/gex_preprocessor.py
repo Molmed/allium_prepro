@@ -22,6 +22,8 @@ class GexPreprocessor():
             f'{output_dir}/{prefix}.tmp.counts.filtered.csv'
         self._normalized_file_path = \
             f'{output_dir}/{prefix}.tmp.counts.norm.csv'
+        self._normalized_file_path_no_log_transform = \
+            f'{output_dir}/{prefix}.tmp.counts.norm.nolog.csv'
         self._output_file_path = f'{output_dir}/{prefix}.counts.allium.csv'
         self._missing_genes_path = f'{output_dir}/{prefix}.missing_genes.csv'
 
@@ -54,7 +56,7 @@ class GexPreprocessor():
         self._preprocess_genes()
         self._normalize()
         self._allium_format()
-        self._cleanup()
+        # self._cleanup()
 
     def _batch_correction(self):
         print('Correcting batch effects...')
@@ -199,14 +201,14 @@ class GexPreprocessor():
         library(sva)
 
         # create a function `get_cpm`
-        normalize <- function(gex_path, ref_path, output_path) {
+        normalize <- function(gex_path, ref_path, output_path, do_log=TRUE) {
             x <- read.csv(gex_path, row.names = 1, header= TRUE, check.names = FALSE)
             annot <- read.csv(ref_path, row.names = 1, header= TRUE, check.names = FALSE)
 
             x_length_norm <- ( (x*10^3 )/annot$length)
             d <- DGEList(counts=x_length_norm)
             TMM <- calcNormFactors(d, method="TMM")
-            CPM <- cpm(TMM, log = TRUE)
+            CPM <- cpm(TMM, log = do_log)
             write.csv(CPM, output_path)
         }
         ''')
@@ -215,6 +217,11 @@ class GexPreprocessor():
         r_normalize(self._filtered_file_path,
                     self._annot_file_path,
                     self._normalized_file_path)
+        # Get a non-log-transformed version for scree plots
+        r_normalize(self._filtered_file_path,
+                    self._annot_file_path,
+                    self._normalized_file_path_no_log_transform,
+                    False)
 
     def _allium_format(self):
         print('Formatting data for ALLIUM...')

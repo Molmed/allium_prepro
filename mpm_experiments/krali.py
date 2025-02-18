@@ -5,13 +5,13 @@ from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
 dataset_name = 'krali'
 print(f"Processing {dataset_name}...")
-path_to_raw_data = '/home/mariya/Data/raw/krali'
+path_to_raw_data = '/home/mariya/Data/for_allium/raw/krali'
 meta_input_file = f'{path_to_raw_data}/41698_2023_479_MOESM2_ESM.xlsx'
 counts_input_file = \
     f'{path_to_raw_data}/GSE227832_RNAseq_read_counts.txt'
 
 # Outputs
-output_dir = '/home/mariya/Data/allium'
+output_dir = '/home/mariya/Data/for_allium/allium'
 pheno_output_file = f'{output_dir}/krali.pheno.allium.csv'
 batches_output_file = f'{output_dir}/krali.batches.allium.csv'
 counts_output_file = f'{output_dir}/krali.counts.raw.csv'
