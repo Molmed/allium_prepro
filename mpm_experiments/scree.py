@@ -39,12 +39,22 @@ def scree(filename, output_file):
 
 
 for dataset in datasets:
-    before_file = f'{data_path}/{dataset}tmp.counts.batch_corrected.csv'
-    # Check if exists
+    # 1. Make scree plot before and after batch correction
+    # 2. Make scree plot before and after normalization
+
+    raw_file = before_file = f'{data_path}/{dataset}.counts.raw.csv'
+    batch_corrected_file = f'{data_path}/{dataset}.tmp.counts.batch_corrected.csv'
+    normalized_file = f'{data_path}/{dataset}.tmp.counts.norm.nolog.csv'
+
+    if os.path.exists(batch_corrected_file):
+        scree(raw_file,
+              f'{data_path}/{dataset}_scree_before_batch_correction.png')
+        scree(batch_corrected_file,
+              f'{data_path}/{dataset}_scree_after_batch_correction.png')
+
+    before_file = batch_corrected_file
     if not os.path.exists(before_file):
-        before_file = f'{data_path}/{dataset}.counts.raw.csv'
+        before_file = raw_file
 
-    after_file = f'{data_path}/{dataset}.tmp.counts.norm.nolog.csv'
-
-    scree(before_file, f'{data_path}/{dataset}_scree_before.png')
-    scree(after_file, f'{data_path}/{dataset}_scree_after.png')
+    scree(before_file, f'{data_path}/{dataset}_scree_before_norm.png')
+    scree(normalized_file, f'{data_path}/{dataset}_scree_after_norm.png')

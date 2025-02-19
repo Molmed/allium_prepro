@@ -7,7 +7,7 @@ datasets = ['diedrich', 'heinaniemi', 'jude', 'krali', 'lilljebjorn', 'tran']
 
 for DATASET_PREFIX in datasets:
     # Data
-    data_dir = '/home/mariya/Data/allium'
+    data_dir = '/home/mariya/Data/for_allium/allium'
     raw_counts_file = f'{data_dir}/{DATASET_PREFIX}.counts.raw.csv'
     processed_counts_file = f'{data_dir}/{DATASET_PREFIX}.counts.allium.csv'
     batches_file = f'{data_dir}/{DATASET_PREFIX}.batches.allium.csv'
