@@ -1,5 +1,5 @@
-from lib.gex_concatenator import GexConcatenator
-from lib.gex_preprocessor import GexPreprocessor
+from src.allium_prepro.gex_concatenator import GexConcatenator
+from src.allium_prepro.gex_preprocessor import GexPreprocessor
 
 # GEX CONCATENATION #
 # If your GEX is a series of files, you can concatenate them into a single file
